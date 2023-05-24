@@ -41,6 +41,18 @@
             @enderror
         </div>
 
+        <div class="mb-3 form-group">
+            <div class="text-uppercase fw-bold">Tecnologie usate :</div>
+
+            @foreach ($technologies as $technology)
+            <div class="form-check">
+                <input type="checkbox" id="tag-{{$technology->id}}" name="technologies[]" value="{{$technology->id}}" @checked($project->technologies->contains($technology))>
+                <label for="tag-{{$technology->id}}">{{$technology->name}}</label>
+            </div>
+            @endforeach
+                
+
+
         <div class="mb-3">
             <label for="project_description"></label>
             <textarea class="form-control @error('project_description') is-invalid @enderror" name="project_description" id="project_description" cols="30" rows="10" placeholder="inserisci la descrizione del progetto">{{old('project_description') ?? $project->project_description}}</textarea>

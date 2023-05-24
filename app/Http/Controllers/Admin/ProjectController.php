@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -32,8 +33,9 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all();
+        $technologies = Technology::all();
 
-       return view('admin/projects/create' , compact('types'));
+       return view('admin/projects/create' , compact('types', 'technologies'));
     }
 
     /**
@@ -48,6 +50,8 @@ class ProjectController extends Controller
 
         $this->validation($formData);
 
+        
+
         $newProject = new Project();
 
         $newProject->project_name = $formData['project_name'];
@@ -58,6 +62,11 @@ class ProjectController extends Controller
         $newProject->type_id = $formData['type_id'];
 
         $newProject->save();
+
+        if(array_key_exists('technologies', $formData)){
+
+            $newProject->technologies()->attach($formData['technologies']);
+        }
 
         return redirect()->route('admin.projects.show', $newProject->slug);
 
@@ -84,7 +93,8 @@ class ProjectController extends Controller
 
     {
         $types = Type::all();
-        return view('admin/projects/edit', compact('project', 'types'));
+        $technologies = Technology::all();
+        return view('admin/projects/edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -103,6 +113,11 @@ class ProjectController extends Controller
         $project->update($formData);
 
         $project->save();
+
+        if(array_key_exists('technologies', $formData)){
+
+            $project->technologies()->sync($formData['technologies']);
+        }
         
         return redirect()->route('admin.projects.show',  $project->slug);
     }

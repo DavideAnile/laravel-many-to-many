@@ -38,15 +38,15 @@
         <div class="mb-3 form-group">
             <div class="text-uppercase fw-bold">Tecnologie usate :</div>
 
+            @foreach ($technologies as $technology)
+                
             <div class="form-check">
-                <input type="checkbox" id="tag-1">
-                <label for="tag-1">PHP</label>
+                <input type="checkbox" id="tag-{{$technology->id}}" name="technologies[]" value="{{$technology->id}}">
+                <label for="tag-{{$technology->id}}">{{$technology->name}}</label>
             </div>
+            @endforeach
 
-            <div class="form-check">
-                <input type="checkbox" id="tag-2">
-                <label for="tag-2">LARAVEL</label>
-            </div>
+           
 
         </div>
 
