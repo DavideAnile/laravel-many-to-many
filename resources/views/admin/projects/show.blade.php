@@ -9,6 +9,13 @@
     <h2 class="text-center p-4">Dettagli del progetto : {{$project->project_name}}</h2>
 
     <div class="mb-3"><strong><em>Tipo di Progetto : {{$project->type->name ?? 'Undefined'}}</em> </strong>  </div>
+    <div class="mb-3">
+      <strong><em>Tecnologie Utilizzate : </em></strong>
+      @foreach ($project->technologies as $technology)
+          <span class="badge" style="background-color: {{$technology->color}}">{{$technology->name}}</span>
+      @endforeach
+    
+    </div>
 
     <tbody>
       <tr>

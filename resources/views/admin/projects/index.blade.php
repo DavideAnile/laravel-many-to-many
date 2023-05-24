@@ -24,8 +24,8 @@
           
           <td>{{$singleProject->project_name}}</td>
           <td>{{$singleProject->created_by}}</td>
-          <td><a href="{{route('admin.projects.show', $singleProject->slug)}}"><i class="fa-solid fa-link"></i></a></td>
           <td>{{$singleProject->type->name ?? 'Undefined'}}</td>
+          <td><a href="{{route('admin.projects.show', $singleProject->slug)}}"><i class="fa-solid fa-link"></i></a></td>
         </tr>
         
         @endforeach
