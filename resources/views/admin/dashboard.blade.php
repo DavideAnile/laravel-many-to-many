@@ -2,6 +2,8 @@
 
 @section('content')
 
+<h1 class="text-center p-4">Seleziona gestione</h1>
+
 <div class="d-flex justify-content-center align-items-center p-4 gap-3">
 
     <div>
