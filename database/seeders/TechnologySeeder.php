@@ -27,7 +27,7 @@ class TechnologySeeder extends Seeder
             $newTechnology->name = $technology;
             $newTechnology->color = $faker->hexColor();
             $newTechnology->slug = Str::slug($newTechnology->name, '-');
-
+        
             $newTechnology->save();
         }
 

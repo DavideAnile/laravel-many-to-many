@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -48,8 +49,10 @@ class ProjectController extends Controller
     {
         $formData = $request->all();
 
+        
         $this->validation($formData);
-
+        
+        
         
 
         $newProject = new Project();
@@ -60,6 +63,16 @@ class ProjectController extends Controller
         $newProject->created_by = $formData['created_by'];
         $newProject->slug = Str::slug($formData['project_name'] , '-');
         $newProject->type_id = $formData['type_id'];
+
+        if($request->hasFile('project_cover')){
+
+            $path = Storage::put('projects_images', $request->project_cover);
+
+            $formData['project_cover'] = $path;
+
+            $newProject->project_cover = $formData['project_cover'];
+        }
+
 
         $newProject->save();
 
@@ -110,6 +123,21 @@ class ProjectController extends Controller
 
         $this->validation($formData);
 
+       
+
+        if($request->hasFile('project_cover')) {
+
+            if($project->project_cover){
+
+                Storage::delete($project->project_cover);
+            }
+
+            $path = Storage::put('projects_images', $request->project_cover);
+
+            $formData['project_cover'] = $path;
+
+        } 
+
         $project->update($formData);
 
         $project->save();
@@ -134,6 +162,12 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+
+        if($project->project_cover){
+
+            Storage::delete($project->project_cover);
+        }
+
         $project->delete();
 
         return redirect()->route('admin.projects.index');
@@ -145,7 +179,8 @@ class ProjectController extends Controller
             'project_description' => 'required|min:5',
             'github_Link' => 'required',
             'created_by' => 'required',
-            'type_id' => 'nullable|exists:types,id'
+            'type_id' => 'nullable|exists:types,id',
+            'project_cover' => 'nullable|image|max:4096',
         ] , [
             
             'project_name.required' => 'Devi inserire un titolo',
@@ -155,7 +190,9 @@ class ProjectController extends Controller
             'project_description.min' => 'la descrizione deve contenere un minimo di :min caratteri',
             'github_Link.required' => 'Inserisci un link Github!',
             'created_by.required' => 'Inserisci il nome del creatore del progetto!',
-            'type_id.exists' =>'Categoria non trovata!'
+            'type_id.exists' =>'Categoria non trovata!',
+            'project_cover.max' => 'La dimensione del file è troppo grande!',
+            'project_cover.image' => 'Devi inserire un file di tipo immagine!',
 
 
         ])->validate();

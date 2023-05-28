@@ -7,6 +7,10 @@
     <table class="table table-striped">
         
         <h2 class="text-center p-4">Dettagli del progetto : {{$project->project_name}}</h2>
+
+        <div class="text-center img-container mb-5">
+          <img src="{{asset('storage/' . $project->project_cover) }}" alt="immagine progetto">
+        </div>
     
         <div class="mb-3"><strong><em>Tipo di Progetto : {{$project->type->name ?? 'Undefined'}}</em> </strong>  </div>
         <div class="mb-3">

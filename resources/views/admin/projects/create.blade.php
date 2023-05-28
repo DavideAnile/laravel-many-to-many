@@ -4,7 +4,7 @@
 
 <h2 class="pt-3"> Inserisci un nuovo progetto !</h2>
 
-<form action="{{route('admin.projects.store')}}" method="POST">
+<form action="{{route('admin.projects.store')}}" method="POST" enctype="multipart/form-data">
 
     @csrf
 
@@ -34,6 +34,18 @@
                 </div>
             @enderror
         </div>
+
+        <div class="mb-3">
+            <label for="project_cover"></label>
+            <input type="file" id="project_cover" name="project_cover" class="form-control @error('project_cover') is-invalid @enderror">
+            @error('project_cover')
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
+            @enderror
+                
+        </div>
+            
 
         <div class="mb-3 form-group">
             <div class="text-uppercase fw-bold">Tecnologie usate :</div>
